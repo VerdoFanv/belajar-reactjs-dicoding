@@ -11,7 +11,8 @@ export default class NotesApp extends Component {
 
     this.state = {
       notes: [],
-      notesFilter: []
+      notesFilter: [],
+      searchQuery: ''
     }
 
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this)
@@ -47,7 +48,7 @@ export default class NotesApp extends Component {
 
   onSearchNoteHandler(query) {
     const notesFilter = this.searchNoteByQueryTitle(this.state.notes, query)
-    this.setState({ notesFilter })
+    this.setState({ notesFilter, searchQuery: query })
   }
 
   onArchiveNoteHandler(id) {
@@ -61,7 +62,7 @@ export default class NotesApp extends Component {
     const notes = this.state.notes.filter((note) => note.id !== id)
     const notesFilter = this.state.notesFilter.filter((note) => note.id !== id)
 
-    this.setState({ notes, notesFilter })
+    this.setState({ notesFilter, notes })
   }
 
   onAddNoteHandler({ title, body }) {
@@ -90,7 +91,7 @@ export default class NotesApp extends Component {
         <div className="note-list__wrapper">
           <p className="note-list__label">Catatan Yang Aktif</p>
           <div className="note-list__wrapper-grid">
-            {this.state.notesFilter.length > 0 ? (
+            {this.state.notesFilter.length > 0 || this.state.searchQuery.length > 0 ? (
               <NoteList notes={this.state.notesFilter.filter((note) => note.archived === false)} onArchiveNotePressed={this.onArchiveNoteHandler} onDeleteNotePressed={this.onDeleteNoteHandler} dateFormatter={showFormattedDate} />
             ) : (
               <NoteList notes={this.state.notes.filter((note) => note.archived === false)} onArchiveNotePressed={this.onArchiveNoteHandler} onDeleteNotePressed={this.onDeleteNoteHandler} dateFormatter={showFormattedDate} />
@@ -100,7 +101,7 @@ export default class NotesApp extends Component {
         <div className="note-list__wrapper">
           <p className='note-list__label'>Catatan Yang Diarsipkan</p>
           <div className="note-list__wrapper-grid">
-          {this.state.notesFilter.length > 0 ? (
+          {this.state.notesFilter.length > 0 || this.state.searchQuery.length > 0 ? (
             <NoteList notes={this.state.notesFilter.filter((note) => note.archived === true)} onArchiveNotePressed={this.onArchiveNoteHandler} onDeleteNotePressed={this.onDeleteNoteHandler} dateFormatter={showFormattedDate} />
           ) : (
             <NoteList notes={this.state.notes.filter((note) => note.archived === true)} onArchiveNotePressed={this.onArchiveNoteHandler} onDeleteNotePressed={this.onDeleteNoteHandler} dateFormatter={showFormattedDate} />
