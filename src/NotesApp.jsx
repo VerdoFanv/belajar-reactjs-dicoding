@@ -4,13 +4,14 @@ import { AddNoteInput } from './components/AddNoteInput'
 import { Separator } from './components/Separator'
 import { NoteList } from './components/NoteList'
 import { showFormattedDate } from './utils/data'
+import { getInitialData } from './utils/data'
 
 export default class NotesApp extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      notes: [],
+      notes: getInitialData(),
       notesFilter: [],
       searchQuery: ''
     }
